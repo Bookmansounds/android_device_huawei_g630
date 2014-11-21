@@ -113,6 +113,7 @@ ro.qc.sdk.audio.fluencetype=none
 #Set for msm8610
 tunnel.audio.encode = false
 rm.audio.exceptions = true
+
 #
 #System property for FM transmitter
 #
@@ -134,6 +135,19 @@ ro.config.pppoe_enable=1
 #System property for FM transmitter
 #
 ro.fm.transmitter=false
+
+#/*Support ICS double sdcard.The value maybe external_sd or internal_sd*/
+persist.sys.main_storage=external_sd
+
+#/*enable the function for switching the SD card*/
+ro.config.hw_sd_swith=true
+
+#PPPOE config enable
+#
+ro.config.pppoe_enable=1
+
+# system prop for storage test
+ro.external.sd.path=/storage/sdcard1
 
 #
 #LCD
