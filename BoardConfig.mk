@@ -27,13 +27,11 @@ TARGET_ARCH := arm
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
-TARGET_CPU_VARIANT := cortex-a7
+TARGET_CPU_VARIANT := krait
 TARGET_ARCH_VARIANT := armv7-a-neon
 
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
-
-TARGET_SPECIFIC_HEADER_PATH += device/huawei/g630/include
 
 # Inline kernel building
 TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
@@ -45,13 +43,6 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01E00000
-
-#WLAN_MODULES:
-#	mkdir -p $(KERNEL_MODULES_OUT)/pronto
-#	mv $(KERNEL_MODULES_OUT)/wlan.ko $(KERNEL_MODULES_OUT)/pronto/pronto_wlan.ko
-#	ln -sf /system/lib/modules/pronto/pronto_wlan.ko $(TARGET_OUT)/lib/modules/wlan.ko
-#
-#TARGET_KERNEL_MODULES += WLAN_MODULES
 
 # Audio
 TARGET_QCOM_AUDIO_VARIANT := caf
@@ -73,20 +64,18 @@ TARGET_SYSTEMIMAGE_USE_SQUISHER := true
 
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
+COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
-# Dalvik
-TARGET_ARCH_LOWMEM := true
-
 # Graphics
-TARGET_QCOM_DISPLAY_VARIANT := caf-legacy
-BOARD_EGL_CFG := device/huawei/g630/prebuilt/system/lib/egl/egl.cfg
-USE_OPENGL_RENDERER := true
-TARGET_USES_ION := true
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
+TARGET_QCOM_DISPLAY_VARIANT := caf-legacy
+TARGET_USES_ION := true
+BOARD_EGL_CFG := $(LOCAL_PATH)/prebuilt/system/lib/egl/egl.cfg
+USE_OPENGL_RENDERER := true
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 
@@ -126,6 +115,9 @@ TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
+
+# Time services
+BOARD_USES_QC_TIME_SERVICES := true
 
 # Vold
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
