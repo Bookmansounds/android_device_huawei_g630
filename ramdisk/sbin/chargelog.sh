@@ -18,7 +18,11 @@ NODE_NAME=( \
 "battery/current_now" \
 "battery/health" \
 "battery/present" \
-#"battery/status" \
+#/* < DTS2014031407556 taohanwen/00205636 20140321 begin */
+# add showing status & factory_diag nodes to log #
+"battery/status" \
+"battery/factory_diag" \
+#/* DTS2014031407556 taohanwen/00205636 20140321 end > */
 #"battery/system_temp_level" \
 #"battery/technology" \
 "battery/temp" \
@@ -56,6 +60,17 @@ id
 if [ $? -ne 0 ];then
     exit
 fi
+
+#/* <DTS2013122807894 chenyuanquan 20131230 begin */
+#/* if it's in recovery mode, but not poweroff charge, then return */
+cat /proc/cmdline | grep "androidboot.huawei_bootmode=recovery"
+if [ $? -eq 0 ];then
+    cat /proc/cmdline | grep "androidboot.mode=hwcharger"
+    if [ $? -ne 0 ];then
+       stop chargelog
+    fi
+fi
+#/* DTS2013122807894 chenyuanquan 20131230 end> */
 
 #check if powerdown charge mode.
 getprop ro.bootmode | grep hwcharger
