@@ -91,8 +91,8 @@ PRODUCT_PACKAGES += \
     gps.msm8610
 
 # Keystore
-PRODUCT_PACKAGES += \
-    keystore.msm8610
+#PRODUCT_PACKAGES += \
+#    keystore.msm8610
 
 # Lights
 PRODUCT_PACKAGES += \
@@ -132,16 +132,13 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
-    libcurl \
-    libqsap_sdk \
     libQWiFiSoftApCfg \
+    libwcnss_qmi \
     wcnss_service
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.debug.wfd.enable=1 \
-    persist.sys.wfd.virtual=0 \
-    persist.sys.ssr.restart_level=3 \
-    wifi.interface=wlan0
+    wifi.interface=wlan0 \
+    ro.sys.umsdirtyratio=20
 
 # Ramdisk
 PRODUCT_COPY_FILES += \

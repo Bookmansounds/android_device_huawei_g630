@@ -19,7 +19,7 @@ LOCAL_PATH := device/huawei/g630
 # Platform
 TARGET_NO_BOOTLOADER := true
 
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno302
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno305
 TARGET_BOARD_PLATFORM := msm8610
 TARGET_BOOTLOADER_BOARD_NAME := MSM8610
 
@@ -33,12 +33,17 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
 
+#TARGET_SPECIFIC_HEADER_PATH := device/huawei/g630/include
+
 # Inline kernel building
 TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
 TARGET_KERNEL_SOURCE := kernel/huawei/g630
 TARGET_KERNEL_CONFIG := cm_msm8610-perf_defconfig
-BOARD_CUSTOM_BOOTIMG_MK := device/huawei/g630/mkbootimg.mk
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37
+BOARD_CUSTOM_BOOTIMG_MK := device/huawei/g630/mkbootimg2.mk
+#TARGET_KERNEL_SOURCE := kernel/huawei/msm8610
+#TARGET_KERNEL_CONFIG := msm8610_defconfig
+#BOARD_CUSTOM_BOOTIMG_MK := device/huawei/g630/mkbootimg.mk
+BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 androidboot.selinux=disable
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
