@@ -154,8 +154,7 @@ PRODUCT_PACKAGES += \
     wcnss_service
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    wifi.interface=wlan0 \
-    ro.sys.umsdirtyratio=20
+    wifi.interface=wlan0 
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
