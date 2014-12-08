@@ -141,7 +141,8 @@ PRODUCT_PACKAGES += \
     hostapd_default.conf
 
 PRODUCT_PACKAGES += \
-    WCNSS_qcom_wlan_nv.bin
+    WCNSS_qcom_wlan_nv.bin \
+    WCNSS_hw_wlan_nv.bin.bin
 
 # Prima(pronto firmware)
 PRODUCT_COPY_FILES += \
