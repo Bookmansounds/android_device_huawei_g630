@@ -35,7 +35,7 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
 
 # Inline kernel building
 TARGET_KERNEL_SOURCE := kernel/huawei/msm8610
-TARGET_KERNEL_CONFIG := msm8610_defconfig
+TARGET_KERNEL_CONFIG := msm8610_g630_defconfig
 BOARD_CUSTOM_BOOTIMG_MK := device/huawei/g630/mkbootimg.mk
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37
 BOARD_KERNEL_BASE := 0x00000000
