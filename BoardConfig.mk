@@ -133,6 +133,15 @@ BOARD_VOLD_MAX_PARTITIONS := 40
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/msm_hsusb/gadget/lun%d/file"
 TARGET_USE_CUSTOM_SECOND_LUN_NUM := 1
 
+# SELinux
+BOARD_SEPOLICY_DIRS += \
+    device/huawei/g630/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    file.te \
+    netd.te \
+    ueventd.te
+
 # Wifi
 BOARD_HAVE_XIAOMI_WIFI := true
 BOARD_HAS_QCOM_WLAN := true
