@@ -37,16 +37,17 @@ tunnel.audiovideo.decode=false
 lpa.decode=true
 lpa.use-stagefright=true
 
-#system props for the MM modules
+# Media
 media.stagefright.enable-player=true
-media.stagefright.enable-http=false
+media.stagefright.enable-http=true
 media.stagefright.enable-aac=true
 media.stagefright.enable-qcp=true
 media.stagefright.enable-fma2dp=true
 media.stagefright.enable-scan=true
 mmp.enable.3g2=true
-media.aac_51_output_enabled=true
+mm.enable.smoothstreaming=true
 mm.enable.qcom_parser=38655
+mm.enable.vsync.render=1
 
 
 # VIDC: debug_levels
@@ -62,7 +63,7 @@ ro.use_data_netmgrd=true
 #system props for time-services
 persist.timed.enable=true
 
-#Audio
+# Audio
 ro.qc.sdk.audio.ssr=false
 ro.qc.sdk.audio.fluencetype=fluence
 persist.audio.fluence.voicecall=true
@@ -81,7 +82,6 @@ persist.env.fastdorm.enabled=true
 
 #Huawei
 persist.radio.restore_mode_pref=1
-ro.qualcomm.cabl=0
 rm.audio.exceptions = true
 
 
