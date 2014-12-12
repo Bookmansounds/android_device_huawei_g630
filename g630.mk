@@ -201,10 +201,11 @@ PRODUCT_COPY_FILES += \
     device/huawei/g630/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/wifi/WCNSS_qcom_wlan_nv.bin 
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.debug.wfd.enable=1 \
-    persist.sys.wfd.virtual=0 \
-    persist.sys.ssr.restart_level=3 \
-    wifi.interface=wlan0
+    persist.sys.qc.sub.rstrtlvl=3 \
+    persist.sys.qc.sub.rdump.on=1 \
+    persist.sys.qc.sub.rdump.max=20 \
+    wifi.interface=wlan0 \
+    wifi.supplicant_scan_interval=15
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
