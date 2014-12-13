@@ -154,6 +154,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
+# Sensors
+PRODUCT_PACKAGES += \
+    sensors.msm8610 \
+    libcalmodule_akm \
+    calmodule.cfg
+
 # Power
 PRODUCT_PACKAGES += \
     power.msm8610
@@ -185,8 +191,7 @@ PRODUCT_PACKAGES += \
     p2p_supplicant_overlay.conf \
     wpa_supplicant_overlay.conf \
     wpa_supplicant_ath6kl.conf \
-    wpa_supplicant_wcn.conf \
-    wpa_supplicant.conf
+    wpa_supplicant_wcn.conf 
 
 PRODUCT_PACKAGES += \
     libQWiFiSoftApCfg \
@@ -198,7 +203,9 @@ PRODUCT_COPY_FILES += \
     kernel/huawei/msm8610/drivers/staging/prima/firmware_bin/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
     kernel/huawei/msm8610/drivers/staging/prima/firmware_bin/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
     device/huawei/g630/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin \
-    device/huawei/g630/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/wifi/WCNSS_qcom_wlan_nv.bin 
+    device/huawei/g630/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/wifi/WCNSS_qcom_wlan_nv.bin \
+    device/huawei/g630/wifi/wpa_supplicant_wcn.conf:system/etc/wifi/wpa_supplicant_wcn.conf \
+    device/huawei/g630/wifi/pronto_wlan.ko:system/lib/modules/pronto/pronto_wlan.ko
 
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.qc.sub.rstrtlvl=3 \
