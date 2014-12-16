@@ -16,7 +16,10 @@ DEVICE_PROVISIONED=1
 persist.radio.msgtunnel.start=false
 persist.radio.atfwd.start=false
 # Start in cdma mode
-ro.telephony.default_network=0
+ro.telephony.default_network=4
+telephony.lteOnCdmaDevice=0
+persist.data_netmgrd_mtu=1460
+ro.telephony.call_ring.multiple=false
 
 # system props for the cne module
 persist.cne.override.memlimit=1
