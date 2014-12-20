@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# inherit from the proprietary version
+-include vendor/huawei/g630/BoardConfigVendor.mk
 
 LOCAL_PATH := device/huawei/g630
 
@@ -33,22 +35,17 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
 
-#Kernel
+TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
+
+# Inline kernel building
 TARGET_KERNEL_SOURCE := kernel/huawei/msm8610
 TARGET_KERNEL_CONFIG := msm8610-g630_defconfig
-BOARD_CUSTOM_BOOTIMG_MK := device/huawei/g630/mkbootimg.mk
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37
+BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
+BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01E00000
-
-#WLAN_MODULES:
-#	mkdir -p $(KERNEL_MODULES_OUT)/pronto
-#	mv $(KERNEL_MODULES_OUT)/wlan.ko $(KERNEL_MODULES_OUT)/pronto/pronto_wlan.ko
-#	ln -sf /system/lib/modules/pronto/pronto_wlan.ko $(TARGET_OUT)/lib/modules/wlan.ko
-
-TARGET_KERNEL_MODULES += WLAN_MODULES
 
 # Audio
 TARGET_QCOM_AUDIO_VARIANT := caf
@@ -61,9 +58,10 @@ AUDIO_FEATURE_DISABLED_DS1_DOLBY_DDP := true
 TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/huawei/g630/bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+
 
 # Build
 TARGET_SYSTEMIMAGE_USE_SQUISHER := true
@@ -73,8 +71,12 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 COMMON_GLOBAL_CFLAGS += -DHUAWEI_MSM8610_CAMERA
 
+
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
+
+# Dalvik
+#TARGET_ARCH_LOWMEM := true
 
 # Graphics
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
@@ -86,8 +88,12 @@ USE_OPENGL_RENDERER := true
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 
-# Hardware tunables framework
-BOARD_HARDWARE_CLASS := device/huawei/g630/cmhw/
+# CMHW
+BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/cmhw/
+
+# Init
+TARGET_UNIFIED_DEVICE := true
+TARGET_INIT_VENDOR_LIB := libinit_msm
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -99,9 +105,9 @@ TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 #Partition
 BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 1073741824
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 1073741824
-BOARD_BOOTIMAGE_PARTITION_SIZE     := 16777216
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
-BOARD_FLASH_BLOCK_SIZE             := 131072
+BOARD_BOOTIMAGE_PARTITION_SIZE     := 0x00FA0000
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00FA0000
+BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_USERIMAGES_USE_EXT4 := true
 
@@ -117,10 +123,14 @@ BOARD_USES_QCOM_HARDWARE := true
 COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/huawei/g630/ramdisk/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/recovery.fstab
+TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/recovery/init.rc
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness\"
 BOARD_HAS_NO_SELECT_BUTTON := true
+DEVICE_RESOLUTION := 720x1280
+BOARD_VOLD_DISC_HAS_MULTIPLE_MAJORS := true
+BOARD_RECOVERY_SWIPE := true
 
 # Time services
 BOARD_USES_QC_TIME_SERVICES := true
@@ -130,15 +140,6 @@ BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 BOARD_VOLD_MAX_PARTITIONS := 40
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/msm_hsusb/gadget/lun%d/file"
 TARGET_USE_CUSTOM_SECOND_LUN_NUM := 1
-
-# SELinux
-BOARD_SEPOLICY_DIRS += \
-    device/huawei/g630/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    file.te \
-    netd.te \
-    ueventd.te
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
@@ -153,3 +154,12 @@ WIFI_DRIVER_MODULE_NAME := "wlan"
 WIFI_DRIVER_FW_PATH_STA := "sta"
 WIFI_DRIVER_FW_PATH_AP := "ap"
 BOARD_WLAN_DEVICE := qcwcn
+
+# SELinux
+BOARD_SEPOLICY_DIRS += \
+    device/huawei/g630/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    device.te \
+    app.te \
+    file_contexts

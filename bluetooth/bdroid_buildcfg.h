@@ -18,7 +18,7 @@
 #ifndef _BDROID_BUILDCFG_H
 #define _BDROID_BUILDCFG_H
 
-#define BTM_DEF_LOCAL_NAME   "Ascend G630"
+#define BTM_DEF_LOCAL_NAME   "G630"
 #define BLUETOOTH_QCOM_SW TRUE
 // Enables Interleave scan
 #define BTA_HOST_INTERLEAVE_SEARCH  TRUE

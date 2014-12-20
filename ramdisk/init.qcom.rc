@@ -63,7 +63,7 @@ on early-boot
     write /sys/kernel/boot_adsp/boot 1
     exec /system/bin/sh /init.qcom.syspart_fixup.sh ${ro.board.platform} ${ro.serialno}
 
- on boot
+ on boot		 on boot
     insmod /system/lib/modules/adsprpc.ko		
 		
     write /sys/module/qpnp_rtc/parameters/poweron_alarm 1		

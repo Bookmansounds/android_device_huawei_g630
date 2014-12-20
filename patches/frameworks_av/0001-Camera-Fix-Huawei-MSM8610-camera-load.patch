@@ -1,0 +1,86 @@
+From 09ae3feb84478ae6eb32eee932ef73e850508fa4 Mon Sep 17 00:00:00 2001
+From: EloYGomeZ <eloygomez83@gmail.com>
+Date: Tue, 16 Dec 2014 17:55:40 +0100
+Subject: [PATCH] Fix Camera Huawei
+
+Change-Id: I16793d89cddd5fe9f08b92bade627b7504646dc7
+---
+ camera/CameraParameters.cpp                        |  5 +++++
+ include/camera/CameraParameters.h                  |  5 +++++
+ media/libstagefright/AwesomePlayer.cpp             |  6 ------
+ services/camera/libcameraservice/CameraService.cpp | 11 +++++++++++
+ 4 files changed, 21 insertions(+), 6 deletions(-)
+
+diff --git a/camera/CameraParameters.cpp b/camera/CameraParameters.cpp
+index 371729a..68cf865 100644
+--- a/camera/CameraParameters.cpp
++++ b/camera/CameraParameters.cpp
+@@ -361,6 +361,11 @@ const char CameraParameters::SCENE_DETECT_OFF[] = "off";
+ const char CameraParameters::SCENE_DETECT_ON[] = "on";
+ #endif
+ 
++#ifdef HUAWEI_MSM8610_CAMERA
++const char CameraParameters::SCENE_MODE_HWAUTO[] = "hwauto";
++const char CameraParameters::KEY_MULTIFOCUS_SHOT_MODE[] = "key-multifocus-shot-mode";
++const char CameraParameters::KEY_QUCIK_SNAPSHOT_MODE[] = "key-qucik-snapshot-mode";
++#endif
+ 
+ // Formats for setPreviewFormat and setPictureFormat.
+ const char CameraParameters::PIXEL_FORMAT_YUV422SP[] = "yuv422sp";
+diff --git a/include/camera/CameraParameters.h b/include/camera/CameraParameters.h
+index 39ccef3..66b9c9b 100644
+--- a/include/camera/CameraParameters.h
++++ b/include/camera/CameraParameters.h
+@@ -876,6 +876,11 @@ public:
+     static const char SCENE_DETECT_OFF[];
+     static const char SCENE_DETECT_ON[];
+ #endif
++#ifdef HUAWEI_MSM8610_CAMERA
++    static const char SCENE_MODE_HWAUTO[];
++    static const char KEY_MULTIFOCUS_SHOT_MODE[];
++    static const char KEY_QUCIK_SNAPSHOT_MODE[];
++#endif
+     static const char PIXEL_FORMAT_YUV422SP[];
+     static const char PIXEL_FORMAT_YUV420SP[]; // NV21
+ #ifdef QCOM_HARDWARE
+diff --git a/media/libstagefright/AwesomePlayer.cpp b/media/libstagefright/AwesomePlayer.cpp
+index 1fc5e59..a28bbc7 100644
+--- a/media/libstagefright/AwesomePlayer.cpp
++++ b/media/libstagefright/AwesomePlayer.cpp
+@@ -1349,12 +1349,6 @@ status_t AwesomePlayer::startAudioPlayer_l(bool sendErrorNotification) {
+             notifyIfMediaStarted_l();
+         }
+ 
+-        // Kick off the text driver in audio in case we are playing an audio only file
+-        if ((mFlags & TEXTPLAYER_INITIALIZED)
+-                && !(mFlags & (TEXT_RUNNING | SEEK_PREVIEW))) {
+-            mTextDriver->start();
+-            modifyFlags(TEXT_RUNNING, SET);
+-        }
+     } else {
+         err = mAudioPlayer->resume();
+     }
+diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
+index 994ce26..b0b81dd 100644
+--- a/services/camera/libcameraservice/CameraService.cpp
++++ b/services/camera/libcameraservice/CameraService.cpp
+@@ -1369,5 +1369,16 @@ ICameraServiceListener::Status CameraService::getStatus(int cameraId) const {
+     Mutex::Autolock al(mStatusMutex);
+     return mStatusList[cameraId];
+ }
++#ifdef HUAWEI_MSM8610_CAMERA
++
++extern "C" void _ZN7android16CameraParameters17SCENE_MODE_HWAUTOE()
++{               
++}
++extern "C" void _ZN7android10VectorImpl19reservedVectorImpl1Ev()
++{
++}
++#endif
++
++
+ 
+ }; // namespace android
+-- 
+1.9.1
+

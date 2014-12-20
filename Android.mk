@@ -13,10 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+#include device/huawei/g630/kernel/AndroidKernel.mk
 
 LOCAL_PATH := $(call my-dir)
 
 ifeq ($(TARGET_DEVICE),g630)
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
+# Symlinks
+$(shell mkdir -p $(TARGET_OUT_ETC)/firmware/wlan/prima; \
+    rm $(TARGET_OUT_ETC)/firmware/wlan/prima/WCNSS_qcom_cfg.ini; \
+    rm $(TARGET_OUT_ETC)/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin; \
+    ln -sf /data/misc/wifi/WCNSS_qcom_cfg.ini \
+    $(TARGET_OUT_ETC)/firmware/wlan/prima/WCNSS_qcom_cfg.ini; \
+    ln -sf /persist/WCNSS_qcom_wlan_nv.bin \
+    $(TARGET_OUT_ETC)/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin)
 endif

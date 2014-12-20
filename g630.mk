@@ -1,3 +1,4 @@
+
 #
 # Copyright (C) 2014 The CyanogenMod Project
 #
@@ -13,78 +14,128 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/huawei/g630/overlay
+LOCAL_PATH := device/huawei/g630
+
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Dalvik
-$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+# media_profiles and media_codecs xmls for 8610
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
+    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml
+	
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/whitelist_appops.xml:system/etc/whitelist_appops.xml
+
+# GPS configuration
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
+    $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+
+# Pre-Jars
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/cneapiclient.jar:system/framework/cneapiclient.jar 
+
+	
+# Permissions
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
+    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
+    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
+    frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:system/etc/permissions/android.hardware.sensor.stepcounter.xml \
+    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:system/etc/permissions/android.hardware.sensor.stepdetector.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
+    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
+    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
+    frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
+    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
+    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
+    $(LOCAL_PATH)/prebuilt/system/etc/permissions/com.qualcomm.location.xml:system/etc/permissions/com.qualcomm.location.xml
+#    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
+#    frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
+#    frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml
+
+# Sensors feature definition file/s
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml
+
+# Screen density
+PRODUCT_AAPT_CONFIG := normal hdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
+
+# Boot animation
+TARGET_SCREEN_HEIGHT := 1280
+TARGET_SCREEN_WIDTH := 720
+
+# HAL
+PRODUCT_PACKAGES += \
+    copybit.msm8610 \
+    gralloc.msm8610 \
+    hwcomposer.msm8610 \
+    memtrack.msm8610 \
+    power.msm8610 \
+    liboverlay
 
 # Audio
 PRODUCT_PACKAGES += \
-    audio.primary.msm8610 \
     audio_policy.msm8610 \
+    audio.primary.msm8610 \
     audio.a2dp.default \
+    audio.usb.default \
     audio.r_submix.default \
-    audio.usb.default
-
-PRODUCT_PACKAGES += \
     libaudio-resampler \
-    libqcompostprocbundle \
+    libaudioparameter \
     libqcomvisualizer \
+    libqcompostprocbundle \
     libqcomvoiceprocessing \
-    tinymix
+    tinycap \
+    tinymix \
+    tinypcminfo \
+    tinyplay \
+    libalsa-intf \
+    libaudio-resampler \
+    libaudioutils \
+    aplay \
+    amix \
+    arec \
+    alsaucm_test
 
-# Audio configuration
+# Audio configuration file
 PRODUCT_COPY_FILES += \
-    device/huawei/g630/configs/audio_effects.conf:system/vendor/etc/audio_effects.conf \
-    device/huawei/g630/configs/audio_policy.conf:system/etc/audio_policy.conf \
-    device/huawei/g630/configs/mixer_paths.xml:system/etc/mixer_paths.xml
-
-# Media
-PRODUCT_COPY_FILES += \
-    device/huawei/g630/configs/media_codecs.xml:system/etc/media_codecs.xml \
-    device/huawei/g630/configs/media_profiles.xml:system/etc/media_profiles.xml
-
-# Thermal
-PRODUCT_COPY_FILES += \
-    device/huawei/g630/configs/thermal-engine-8610.conf:system/etc/thermal-engine-8610.conf
-
-# Keylayouts
-PRODUCT_COPY_FILES += \
-    device/huawei/g630/configs/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/huawei/g630/configs/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
-    device/huawei/g630/configs/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    device/huawei/g630/configs/keylayout/atmel_mxt_ts.kl:system/usr/keylayout/atmel_mxt_ts.kl \
-    device/huawei/g630/configs/keylayout/Generic.kl:system/usr/keylayout/Generic.kl \
-    device/huawei/g630/configs/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
-
-# Camera
-PRODUCT_PACKAGES += \
-    libxml2
+    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
+    $(LOCAL_PATH)/configs/mixer_paths.xml:system/etc/mixer_paths.xml \
+    $(LOCAL_PATH)/configs/audio_effects.conf:system/vendor/etc/audio_effects.conf \
+    $(LOCAL_PATH)/configs/globalAutoAdapt-conf.xml:system/etc/globalAutoAdapt-conf.xml
 
 # Charger
 PRODUCT_PACKAGES += \
     charger \
     charger_res_images
 
-# CRDA
+# Power
+PRODUCT_PACKAGES += \
+    power.msm8610
+
+# Crda
 PRODUCT_PACKAGES += \
     crda \
     linville.key.pub.pem \
     regdbdump \
     regulatory.bin
-
-# Display
-PRODUCT_PACKAGES += \
-    copybit.msm8610 \
-    gralloc.msm8610 \
-    hwcomposer.msm8610 \
-    memtrack.msm8610 \
-    liboverlay
 
 # Ebtables
 PRODUCT_PACKAGES += \
@@ -92,17 +143,7 @@ PRODUCT_PACKAGES += \
     ethertypes \
     libebtc
 
-# Filesystem
-PRODUCT_PACKAGES += \
-    e2fsck \
-    fibmap.f2fs \
-    fsck.f2fs \
-    make_ext4fs \
-    mkfs.f2fs \
-    resize2fs \
-    setup_fs
-
-# FM
+# FM radio
 PRODUCT_PACKAGES += \
     FM2 \
     FMRecord \
@@ -111,35 +152,29 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    gps.msm8610 \
-    libgps.utils \
-    libloc_adapter \
-    libloc_eng
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.gps.agps_provider=1 \
-    persist.gps.qc_nlp_in_use=0
-
-PRODUCT_COPY_FILES += \
-    device/huawei/g630/configs/gps.conf:system/etc/gps.conf
-
-# IRSC
-PRODUCT_COPY_FILES += \
-    device/huawei/g630/configs/sec_config:system/etc/sec_config
+    gps.msm8610
 
 # Lights
 PRODUCT_PACKAGES += \
     lights.msm8610
 
-# Misc
+# Camera
 PRODUCT_PACKAGES += \
-    libxml2
+    camera.msm8610
+
+
+#OEM Services library
+PRODUCT_PACKAGES += \
+    oem-services \
+    libsubsystem_control \
+    libSubSystemShutdown
 
 # OMX
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
     libdashplayer \
     libdivxdrmdecrypt \
+    libmm-omxcore \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
@@ -160,59 +195,36 @@ PRODUCT_PACKAGES += \
     libcalmodule_akm \
     calmodule.cfg
 
-# Power
+# Filesystem management tools
 PRODUCT_PACKAGES += \
-    power.msm8610
-
-# QRNG
-PRODUCT_PACKAGES += \
-    qrngd \
-    qrngp
+    e2fsck \
+    fibmap.f2fs \
+    fsck.f2fs \
+    make_ext4fs \
+    mkfs.f2fs \
+    resize2fs \
+    setup_fs
 
 # USB
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
-
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
-# Qualcomm
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.timed.enable=true \
-    qcom.hw.aac.encoder=true \
-    ro.qualcomm.cabl=0 \
-    ro.vendor.extension_library=/vendor/lib/libqc-opt.so
-
-# Wifi
-PRODUCT_PACKAGES += \
-    hostapd.accept \
-    hostapd.deny \
-    hostapd_default.conf \
-    p2p_supplicant_overlay.conf \
-    wpa_supplicant_overlay.conf \
-    wpa_supplicant_ath6kl.conf \
-    wpa_supplicant_wcn.conf 
-
-PRODUCT_PACKAGES += \
-    libQWiFiSoftApCfg \
-    libwcnss_qmi \
-    wcnss_service
-
+# Thermald
 PRODUCT_COPY_FILES += \
-    kernel/huawei/msm8610/drivers/staging/prima/firmware_bin/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
-    kernel/huawei/msm8610/drivers/staging/prima/firmware_bin/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
-    kernel/huawei/msm8610/drivers/staging/prima/firmware_bin/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
-    device/huawei/g630/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin \
-    device/huawei/g630/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/wifi/WCNSS_qcom_wlan_nv.bin \
-    device/huawei/g630/wifi/wpa_supplicant_wcn.conf:system/etc/wifi/wpa_supplicant_wcn.conf \
-    device/huawei/g630/wifi/pronto_wlan.ko:system/lib/modules/pronto/pronto_wlan.ko
+    $(LOCAL_PATH)/configs/thermal-engine-8610.conf:system/etc/thermal-engine-8610.conf
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.qc.sub.rstrtlvl=3 \
-    persist.sys.qc.sub.rdump.on=1 \
-    persist.sys.qc.sub.rdump.max=20 \
-    wifi.interface=wlan0 \
-    wifi.supplicant_scan_interval=15
+# Keylayouts
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+
+# Spn config
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/spn-conf.xml:system/etc/spn-conf.xml \
+    $(LOCAL_PATH)/configs/apns-conf.xml:system/etc/apns-conf.xml
+	
+# Update-Binary
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/update-binary:obj/EXECUTABLES/updater_intermediates/updater
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
@@ -222,35 +234,52 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,device/huawei/g630/prebuilt/system,system)
 
-# Update-Binary
-PRODUCT_COPY_FILES += \
-    device/huawei/g630/update-binary:obj/EXECUTABLES/updater_intermediates/updater
+# Random
+PRODUCT_PACKAGES += \
+    qrngd \
+    qrngp
 
-# Permissions
+# Wifi
+PRODUCT_PACKAGES += \
+    hostapd.accept \
+    hostapd.deny \
+    hostapd_default.conf
+
+PRODUCT_PACKAGES += \
+    wpa_supplicant_overlay.conf \
+    p2p_supplicant_overlay.conf \
+
+# Wifi
+PRODUCT_PACKAGES += \
+    libQWiFiSoftApCfg \
+    libwcnss_qmi \
+    wcnss_service
+
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
-    frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
-    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
+    $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
+    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:persist/WCNSS_qcom_wlan_nv.bin \
+    $(LOCAL_PATH)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+    $(LOCAL_PATH)/wifi/wpa_supplicant_wcn.conf:system/etc/wifi/wpa_supplicant_wcn.conf \
+    $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat 
+
+# Set default USB interface
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
+
+# Enable strict operation
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.strict_op_enable=false \
+    persist.sys.whitelist=/system/etc/whitelist_appops.xml \
+    ro.secure=0
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.product.model=G630
+
 	
-# Screen density
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
-PRODUCT_AAPT_PREF_CONFIG := xhdpi
+$(call inherit-product, build/target/product/full.mk)
+
+$(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
+
+$(call inherit-product-if-exists, vendor/huawei/g630/g630-vendor.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-
-# Call the proprietary setup
-$(call inherit-product, vendor/huawei/g630/g630-vendor.mk)
