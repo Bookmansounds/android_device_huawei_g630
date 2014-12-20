@@ -1,7 +1,16 @@
 
-# Telephony
+#RIL initial bringup
 rild.libpath=/vendor/lib/libril-qc-qmi-1.so
 rild.libargs=-d /dev/smd0
+persist.rild.nitz_plmn=
+persist.rild.nitz_long_ons_0=
+persist.rild.nitz_long_ons_1=
+persist.rild.nitz_long_ons_2=
+persist.rild.nitz_long_ons_3=
+persist.rild.nitz_short_ons_0=
+persist.rild.nitz_short_ons_1=
+persist.rild.nitz_short_ons_2=
+persist.rild.nitz_short_ons_3=
 ril.subscription.types=NV,RUIM
 DEVICE_PROVISIONED=1
 persist.radio.msgtunnel.start=false
@@ -9,22 +18,25 @@ persist.radio.atfwd.start=false
 # Start in cdma mode
 ro.telephony.default_network=0
 telephony.lteOnCdmaDevice=0
+persist.data_netmgrd_mtu=1460
+ro.telephony.call_ring.multiple=false
+persist.radio.apm_sim_not_pwdn=1
 
+#
 # system props for the cne module
+#
 persist.cne.feature=0
 # system prop for override memlimit to enable cne
 persist.cne.override.memlimit=1
 
 
-#Display
+# Display
 ro.sf.lcd_density=320
-ro.opengles.version=196608
+rro.opengles.version=196608
 debug.sf.fb_always_on=1
 debug.composition.type=dyn
 debug.gralloc.map_fb_memory=0
 debug.hwc.dynThreshold=1.5
-dalvik.vm.heapsize=256m
-dev.pm.dyn_samplingrate=1
 
 # GPS
 ro.qc.sdk.izat.premium_enabled=0
@@ -38,6 +50,7 @@ dev.pm.dyn_samplingrate=1
 ro.hdmi.enable=true
 
 # Media
+
 media.stagefright.enable-player=true
 media.stagefright.enable-http=true
 media.stagefright.enable-aac=true
@@ -53,19 +66,26 @@ vidc.debug.level=1
 ro.config.low_ram=false
 ro.ksm.default=1
 
+#
 # system props for widevine
+#
 persist.gralloc.cp.level3=1
 
+#
 # system props for the data modules
+#
 ro.use_data_netmgrd=true
 
 #system props for time-services
 persist.timed.enable=true
 
 # simulate sdcard on /data/media
+#
 persist.fuse_sdcard=false
 
+#
 #snapdragon value add features
+#
 ro.qc.sdk.audio.ssr=false
 
 # Audio
@@ -89,19 +109,23 @@ ro.sys.fw.bg_apps_limit=20
 # Qualcomm
 ro.vendor.extension_library=/vendor/lib/libqc-opt.so
 ro.qualcomm.cabl=0
+qcom.hw.aac.encoder=true
 
 # Wifi
 wifi.interface=wlan0
 ro.sys.umsdirtyratio=20
-wlan.driver.config=/data/misc/wifi/WCNSS_qcom_cfg.ini
 
 # system prop for NFC DT
 ro.nfc.port=I2C
 
+#
 #DASH video streaming
+#Specify max allowed resolution/bandwidth for representations
+#Set allowed avsync window during playback
 persist.dash.max.rep.resolution=1280*720
 persist.dash.max.rep.bandwidth=4000000
 persist.dash.avsync.window.msec=100
+
 
 #the fucking huawei stuff
 ro.config.camera_target_track=true
