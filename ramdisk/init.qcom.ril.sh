@@ -8,7 +8,7 @@
 #     * Redistributions in binary form must reproduce the above copyright
 #       notice, this list of conditions and the following disclaimer in the
 #       documentation and/or other materials provided with the distribution.
-#     * Neither the name of The Linux Foundation nor
+#     * Neither the name of Linux Foundation nor
 #       the names of its contributors may be used to endorse or promote
 #       products derived from this software without specific prior written
 #       permission.
@@ -27,47 +27,51 @@
 #
 
 #
-# start ril-daemon only for targets on which radio is present
+# start two rild when dsds property enabled
 #
-baseband=`getprop ro.baseband`
-netmgr=`getprop ro.use_data_netmgrd`
-sgltecsfb=`getprop persist.radio.sglte_csfb`
-
-case "$baseband" in
-    "apq")
-    setprop ro.radio.noril yes
-    stop ril-daemon
-esac
-
-case "$baseband" in
-    "msm" | "csfb" | "svlte2a" | "mdm" | "sglte" | "sglte2" | "dsda2" | "unknown")
-    start qmuxd
-    case "$baseband" in
-        "svlte2a" | "csfb")
-          start qmiproxy
-        ;;
-        "sglte" | "sglte2" )
-          if [ "x$sgltecsfb" != "xtrue" ]; then
-              start qmiproxy
-          else
-              setprop persist.radio.voice.modem.index 0
-          fi
-        ;;
-        "dsda2")
-          setprop persist.radio.multisim.config dsda
-    esac
-
-    multisim=`getprop persist.radio.multisim.config`
-
-    if [ "$multisim" = "dsds" ] || [ "$multisim" = "dsda" ]; then
+multisim=`getprop persist.radio.multisim.config`
+if [ "$multisim" = "dsds" ] || [ "$multisim" = "dsda" ]; then
+        stop ril-daemon
+        start ril-daemon
         start ril-daemon1
-    elif [ "$multisim" = "tsts" ]; then
+elif [ "$multisim" = "tsts" ]; then
+        stop ril-daemon
+        start ril-daemon
         start ril-daemon1
         start ril-daemon2
-    fi
+fi
 
-    case "$netmgr" in
-        "true")
-        start netmgrd
-    esac
-esac
+# <DTS2014010306901 zhangxinsheng 20140106 begin
+# carrier=`getprop persist.env.spec`
+# if [ "$carrier" = "ChinaTelecom" ]; then
+    # Update the props.
+    # setprop persist.env.phone.global true
+    # setprop persist.env.plmn.update true
+
+    # Remount /system with read-write permission for copy action.
+    # `mount -o remount,rw /system`
+
+    # Copy the modules to system app.
+    # `cp /system/vendor/ChinaTelecom/system/app/RoamingSettings.apk /system/app/RoamingSettings.apk`
+    # `cp /system/vendor/ChinaTelecom/system/app/UniversalDownload.apk /system/app/UniversalDownload.apk`
+    # `chmod 644 /system/app/RoamingSettings.apk`
+    # `chmod 644 /system/app/UniversalDownload.apk`
+
+    # Remount /system with read-only
+    # `mount -o remount,ro /system`
+# else
+    # Update the props.
+    # setprop persist.env.phone.global false
+    # setprop persist.env.plmn.update false
+
+    # Remount /system with read-write permission for remove action.
+    # `mount -o remount,rw /system`
+
+    # Remove the modules from the system app.
+    # `rm /system/app/RoamingSettings.apk`
+    # `rm /system/app/UniversalDownload.apk`
+
+    # Remount /system with read-only
+    # `mount -o remount,ro /system`
+# fi
+# DTS2014010306901 zhangxinsheng 20140106 end>
