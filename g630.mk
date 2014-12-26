@@ -22,6 +22,15 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
+#Fix for build kernel prebuilt
+$(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
+
+# mkbootimg   
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/dt.img:$(PRODUCT_OUT)/dt.img \
+    $(LOCAL_PATH)/mkbootimg_dtb:$(PRODUCT_OUT)/mkbootimg_dtb \
+    $(LOCAL_PATH)/kernel:$(PRODUCT_OUT)/zImage
+
 # media_profiles and media_codecs xmls for 8610
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
