@@ -1,4 +1,3 @@
-
 #
 # Copyright (C) 2014 The CyanogenMod Project
 #
@@ -250,26 +249,16 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
-    hostapd.accept \
-    hostapd.deny \
-    hostapd_default.conf
+    libwcnss_qmi
+#    libQWiFiSoftApCfg \
+#    wcnss_service
 
-PRODUCT_PACKAGES += \
-    wpa_supplicant_overlay.conf \
-    p2p_supplicant_overlay.conf \
-
-# Wifi
-PRODUCT_PACKAGES += \
-    libQWiFiSoftApCfg \
-    libwcnss_qmi \
-    wcnss_service
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:persist/WCNSS_qcom_wlan_nv.bin \
-    $(LOCAL_PATH)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
-    $(LOCAL_PATH)/wifi/wpa_supplicant_wcn.conf:system/etc/wifi/wpa_supplicant_wcn.conf \
-    $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat 
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.qc.sub.rstrtlvl=3 \
+    persist.sys.qc.sub.rdump.on=1 \
+    persist.sys.qc.sub.rdump.max=20 \
+    wifi.interface=wlan0 \
+    wifi.supplicant_scan_interval=15
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
@@ -282,7 +271,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.secure=0
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.product.model=G630
+    ro.product.model=G630-U20
 
 	
 $(call inherit-product, build/target/product/full.mk)

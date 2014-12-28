@@ -22,13 +22,10 @@ persist.data_netmgrd_mtu=1460
 ro.telephony.call_ring.multiple=false
 persist.radio.apm_sim_not_pwdn=1
 
-#
 # system props for the cne module
-#
 persist.cne.feature=0
 # system prop for override memlimit to enable cne
 persist.cne.override.memlimit=1
-
 
 # Display
 ro.sf.lcd_density=320
@@ -46,11 +43,9 @@ ro.gps.agps_provider=1
 
 dalvik.vm.heapsize=256m
 dev.pm.dyn_samplingrate=1
-
 ro.hdmi.enable=true
 
 # Media
-
 media.stagefright.enable-player=true
 media.stagefright.enable-http=true
 media.stagefright.enable-aac=true
@@ -66,26 +61,19 @@ vidc.debug.level=1
 ro.config.low_ram=false
 ro.ksm.default=1
 
-#
 # system props for widevine
-#
 persist.gralloc.cp.level3=1
 
-#
 # system props for the data modules
-#
 ro.use_data_netmgrd=true
 
 #system props for time-services
 persist.timed.enable=true
 
 # simulate sdcard on /data/media
-#
 persist.fuse_sdcard=false
 
-#
 #snapdragon value add features
-#
 ro.qc.sdk.audio.ssr=false
 
 # Audio
@@ -112,20 +100,16 @@ ro.qualcomm.cabl=0
 qcom.hw.aac.encoder=true
 
 # Wifi
-wifi.interface=wlan0
 ro.sys.umsdirtyratio=20
 
 # system prop for NFC DT
 ro.nfc.port=I2C
 
-#
 #DASH video streaming
-#Specify max allowed resolution/bandwidth for representations
 #Set allowed avsync window during playback
 persist.dash.max.rep.resolution=1280*720
 persist.dash.max.rep.bandwidth=4000000
 persist.dash.avsync.window.msec=100
-
 
 #the fucking huawei stuff
 ro.config.camera_target_track=true
